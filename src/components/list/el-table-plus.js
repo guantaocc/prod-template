@@ -1,20 +1,26 @@
 import omit from "lodash/omit";
-
+import axios from "axios";
 export default {
   name: "el-table-plus",
   props: {
-    loading: { type: Boolean }, // 动效loading
-    data: { type: Array, default: () => [] }, // 列表数据
     columns: { type: Array, default: () => [] }, // 列配置
     // 翻页条设置
     pagination: { type: [Object, Boolean], default: false },
-    total: { type: Number, default: 0 },
+    // 额外参数
+    params: { type: Object, default: () => {} },
+    // 数据请求
+    service: { type: Function, required: true },
   },
   data() {
     return {
       pageSize: (this.pagination && this.pagination.pageSize) || 20,
-      currentPage: (this.pagination && this.pagination.currentPage) || 1,
+      pageNum: (this.pagination && this.pagination.pageNum) || 1,
       tableWrap: null,
+      $data: [],
+      loading: false,
+      total: 0,
+      cancelToken: axios.cancelToken,
+      cancelSourceList: [],
     };
   },
   mounted() {
@@ -31,19 +37,71 @@ export default {
       e.preventDefault();
       this.$emit("scroll", e);
     },
+    // 成功或失败移除请求
+    removeCancelSource(_cancelSource) {
+      if (_cancelSource) {
+        const index = this.cancelSourceList.indexOf(_cancelSource);
+        this.cancelSourceList.splice(index, 1);
+      }
+    },
+    // 取消所有请求
+    cancelAllRequest(reason) {
+      for (const _cancelSource of this.cancelSourceList) {
+        _cancelSource.cancel(reason);
+      }
+      this.cancelAllRequest = [];
+    },
+    // 添加取消请求
+    pushCancelSource(_cancelSource) {
+      this.cancelSourceList.push(_cancelSource);
+    },
+    // 请求接口地址
+    doSearch() {
+      this.cancelSourceList();
+      const query = Object.assign(
+        { pageSize: this.pagesize, pageNum: this.pageNum },
+        this.params
+      );
+      this.loading = true;
+      // cancelToken
+      const promise = this.service;
+      // config cancelToken ?
+      const _source = this.cancelToken.source();
+      this.pushCancelSource(_source);
+      promise(query, { cancelToken: _source.token })
+        .then((res) => {
+          const { list, total } = res;
+          this.$data = list;
+          this.total = total;
+        })
+        .catch(() => {
+          this.$data = [];
+          this.total = 0;
+        })
+        .finally(() => {
+          this.loading = false;
+          this.removeCancelSource(_source);
+        });
+    },
+    refresh() {
+      this.$total = 0;
+      this.pagesize = 10;
+      this.pageNum = 1;
+    },
     pageSizeChange(pageSize) {
       this.pageSize = pageSize;
       this.emitPageChangeEvent();
     },
-    currentChange(currentPage) {
-      this.currentPage = currentPage;
+    currentChange(pageNum) {
+      this.pageNum = pageNum;
       this.emitPageChangeEvent();
     },
     emitPageChangeEvent() {
       this.$emit("page-change", {
         pageSize: this.pageSize,
-        currentPage: this.currentPage,
+        pageNum: this.pageNum,
       });
+      this.doSearch();
     },
   },
   render(h) {
@@ -112,7 +170,7 @@ export default {
       <div class="el-table-plus" v-loading={this.loading}>
         <el-table
           ref="table"
-          data={this.data}
+          data={this.$data}
           {...{ props: this.$attrs, on: tableListeners }}
         >
           {renderColumns(this.columns)}
