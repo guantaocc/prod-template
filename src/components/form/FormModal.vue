@@ -19,9 +19,14 @@
       </FormItemPlus>
     </el-form>
     <span slot="footer" class="dialog-footer">
-      <el-button @click="dialogVisible = false">取 消</el-button>
-      <el-button type="primary" @click="handleOk" :loading="loading">
-        提 交
+      <el-button size="small" @click="dialogVisible = false">取 消</el-button>
+      <el-button
+        size="small"
+        type="primary"
+        @click="handleOk"
+        :loading="loading"
+      >
+        确 定
       </el-button>
     </span>
   </el-dialog>

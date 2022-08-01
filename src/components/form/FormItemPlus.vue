@@ -1,6 +1,7 @@
 <template>
   <el-form-item
     class="el-form-item-plus"
+    :class="hasToolTip && 'has-tooltip'"
     ref="formItemRef"
     v-on="$listeners"
     v-bind="$attrs"
@@ -21,13 +22,20 @@ export default {
     tooltip: { type: String, default: "" },
     label: { type: String, default: "" },
   },
+  computed: {
+    hasToolTip() {
+      return !!this.tooltip;
+    },
+  },
 };
 </script>
 
 <style lang="less" scoped>
-.el-form-item-plus :deep {
+.el-form-item-plus.has-tooltip :deep {
   .el-form-item__label {
-    float: none !important;
+    position: relative;
+    padding-right: 20px;
+    box-sizing: border-box;
   }
 }
 </style>
