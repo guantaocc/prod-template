@@ -2,9 +2,10 @@
   <div id="app">
     <div class="config-provider">
       <nav>
-        <router-link to="/about">About</router-link>
-        <router-link to="/form/user">form tips</router-link>
-        <router-link to="/form/dialog">form dialog</router-link>
+        <router-link to="/form/user">form tips表单项</router-link>
+        <router-link to="/form/dialog">form dialog表单对话框</router-link>
+        <router-link to="/chart">chart图表</router-link>
+        <router-link to="/table">plus table表格封装</router-link>
       </nav>
       <router-view />
     </div>
@@ -35,7 +36,6 @@ nav {
   a {
     font-weight: bold;
     color: #2c3e50;
-
     &.router-link-exact-active {
       color: #42b983;
     }
