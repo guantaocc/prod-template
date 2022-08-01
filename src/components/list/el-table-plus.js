@@ -3,7 +3,8 @@ import axios from "axios";
 export default {
   name: "el-table-plus",
   props: {
-    columns: { type: Array, default: () => [] }, // 列配置
+    // 列配置
+    columns: { type: Array, default: () => [] },
     // 翻页条设置
     pagination: { type: [Object, Boolean], default: false },
     // 额外参数
