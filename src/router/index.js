@@ -3,25 +3,30 @@ import VueRouter from "vue-router";
 
 Vue.use(VueRouter);
 
-const routes = [
-  {
-    path: "/about",
-    name: "about",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/AboutView"),
-  },
+export const routes = [
   {
     path: "/form/user",
     name: "formUser",
+    meta: {
+      title: "表格",
+    },
     component: () => import("../views/FormItemUser"),
   },
   {
     path: "/form/dialog",
-    name: "formUser",
+    name: "formDialog",
+    meta: {
+      title: "对话框",
+    },
     component: () => import("../views/FormDialog"),
+  },
+  {
+    path: "/chart/demo",
+    name: "chartdemo",
+    meta: {
+      title: "图表",
+    },
+    component: () => import("../views/ChartDashboard"),
   },
 ];
 

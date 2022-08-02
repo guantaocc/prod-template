@@ -1,11 +1,29 @@
 <template>
-  <div>
-    <!-- 传统三栏布局 -->
+  <div class="basic-layout">
+    <SideBar :routes="routes"> </SideBar>
+    <router-view />
   </div>
 </template>
 
 <script>
-export default {};
+import SideBar from "./SideBar";
+import { routes } from "@/router";
+export default {
+  name: "BasicLayout",
+  computed: {
+    routes() {
+      return routes;
+    },
+  },
+  components: {
+    SideBar,
+  },
+};
 </script>
 
-<style></style>
+<style lang="less">
+.basic-layout {
+  display: flex;
+  height: 100%;
+}
+</style>
