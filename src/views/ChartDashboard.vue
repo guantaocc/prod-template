@@ -1,5 +1,6 @@
 <template>
   <div class="chart-dashboard">
+    <div class="tips">建议5K屏下查看</div>
     <div class="card person">
       <div class="title">
         <div class="con">人员信息总览</div>

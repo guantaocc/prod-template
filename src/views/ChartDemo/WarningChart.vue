@@ -39,12 +39,50 @@ export default {
                 fontSize: fitChartSizeVh(28),
               },
             },
+            center: ["50%", "50%"],
+            radius: "70%",
+            shape: "circle",
+            axisLine: {
+              show: false,
+            },
+            axisTick: {
+              show: false,
+            },
+            splitArea: {
+              show: false,
+            },
+            splitLine: {
+              show: true,
+              lineStyle: {
+                opacity: 0.3,
+                color: "#fff",
+                width: 1,
+              },
+            },
           },
         ],
+        radiusAxis: {
+          show: false,
+          boundaryGap: false,
+        },
         series: [
           {
             name: "",
             type: "radar",
+            tooltip: {
+              trigger: "item",
+            },
+            symbolSize: 4,
+            lineStyle: {
+              width: 0,
+            },
+            itemStyle: {
+              //此属性的颜色和下面areaStyle属性的颜色都设置成相同色即可实现
+              color: "#47FCEB",
+              borderColor: "#47FCEB",
+              // 拐点宽度
+              borderWidth: 4,
+            },
             data: [
               {
                 value: radarData,

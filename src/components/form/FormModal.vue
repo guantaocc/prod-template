@@ -33,10 +33,10 @@
 </template>
 
 <script>
-import FormDialog from "@/mixins/FormDialog";
+import useFormDialog from "@/mixins/useFormDialog";
 import FormItemPlus from "./FormItemPlus.vue";
 export default {
-  mixins: [FormDialog],
+  mixins: [useFormDialog],
   components: {
     FormItemPlus,
   },

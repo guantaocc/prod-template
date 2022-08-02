@@ -1,7 +1,11 @@
 <template>
   <div class="basic-layout">
-    <SideBar :routes="routes"> </SideBar>
-    <router-view />
+    <div class="aside-content">
+      <SideBar class="side-bar" :routes="routes"> </SideBar>
+    </div>
+    <div class="main">
+      <router-view />
+    </div>
   </div>
 </template>
 
@@ -25,5 +29,16 @@ export default {
 .basic-layout {
   display: flex;
   height: 100%;
+  .aside-content {
+    width: 256px;
+    height: 100%;
+    .side-bar {
+      width: 100%;
+      height: 100%;
+    }
+  }
+  .main {
+    flex: 1;
+  }
 }
 </style>
