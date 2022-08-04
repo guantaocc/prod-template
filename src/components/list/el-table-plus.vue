@@ -1,3 +1,4 @@
+<script>
 import omit from "lodash/omit";
 import axios from "axios";
 export default {
@@ -17,12 +18,13 @@ export default {
       pageSize: (this.pagination && this.pagination.pageSize) || 20,
       pageNum: (this.pagination && this.pagination.pageNum) || 1,
       tableWrap: null,
-      $data: [],
+      // eslint-disable-next-line vue/no-reserved-keys
+      list: [],
       loading: false,
       total: 0,
       cancelToken: axios.cancelToken,
       cancelSourceList: [],
-      // 保存对表格的操作 信息
+      // 保存对表格的操作 动作信息
       action: {},
     };
   },
@@ -74,11 +76,11 @@ export default {
       promise(query, { cancelToken: _source.token })
         .then((res) => {
           const { list, total } = res;
-          this.$data = list;
+          this.list = list;
           this.total = total;
         })
         .catch(() => {
-          this.$data = [];
+          this.list = [];
           this.total = 0;
         })
         .finally(() => {
@@ -168,7 +170,7 @@ export default {
       <div class="el-table-plus" v-loading={this.loading}>
         <el-table
           ref="table"
-          data={this.$data}
+          data={this.list}
           {...{ props: this.$attrs, on: tableListeners }}
         >
           {renderColumns(this.columns)}
@@ -185,3 +187,6 @@ export default {
     );
   },
 };
+</script>
+
+<style scoped></style>
