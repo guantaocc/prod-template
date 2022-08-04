@@ -13,16 +13,24 @@
       </div>
       <warning-chart></warning-chart>
     </div>
+    <div class="card car">
+      <div class="title">
+        <div class="con">车辆出入统计分析</div>
+      </div>
+      <VehicleChart></VehicleChart>
+    </div>
   </div>
 </template>
 
 <script>
 import PersonChart from "./ChartDemo/PersonChart.vue";
 import WarningChart from "./ChartDemo/WarningChart.vue";
+import VehicleChart from "./ChartDemo/VehicleChart.vue";
 export default {
   components: {
     PersonChart,
     WarningChart,
+    VehicleChart,
   },
 };
 </script>

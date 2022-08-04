@@ -22,6 +22,8 @@ export default {
       total: 0,
       cancelToken: axios.cancelToken,
       cancelSourceList: [],
+      // 保存对表格的操作 信息
+      action: {},
     };
   },
   mounted() {
@@ -129,13 +131,8 @@ export default {
                 column.customRender ||
                 this.$scopedSlots[column.scopedSlots.customRender];
               if (column.customRender) {
-                return column.customRender(
-                  defaultValue,
-                  row,
-                  column,
-                  $index,
-                  h
-                );
+                // 传递 编辑动作
+                return column.customRender(defaultValue, row, column, $index);
               }
               // 兼容element-ui formatter属性
               if (column.formatter) {
