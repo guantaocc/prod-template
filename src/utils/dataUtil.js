@@ -43,7 +43,7 @@ export const fitChartSizeVh = (size, defalteHeight = 1976) => {
     window.innerHeight ||
     document.documentElement.clientHeight ||
     document.body.clientheight;
-  if (!clientHeight) return size / 2;
+  if (!clientHeight) return size;
   let scale = clientHeight / defalteHeight;
   return Number((size * scale).toFixed(3));
 };
