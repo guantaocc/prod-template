@@ -6,6 +6,11 @@ Vue.use(VueRouter);
 
 export const routes = [
   {
+    path: "/",
+    redirect: "/form",
+    hidden: true,
+  },
+  {
     path: "/form",
     component: BasicLayout,
     meta: {
@@ -51,6 +56,23 @@ export const routes = [
           title: "dashboard",
         },
         component: () => import("../views/ChartDashboard.vue"),
+      },
+    ],
+  },
+  {
+    path: "/dag",
+    name: "dag",
+    meta: {
+      title: "流程图",
+    },
+    component: BasicLayout,
+    children: [
+      {
+        path: "butterfly",
+        meta: {
+          title: "butterfly流程图",
+        },
+        component: () => import("../views/butterfly/index.vue"),
       },
     ],
   },
