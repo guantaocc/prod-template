@@ -1,24 +1,22 @@
 # prod-template
 
-## Project setup
-```
-yarn install
-```
+## 项目介绍
 
-### Compiles and hot-reloads for development
-```
-yarn serve
-```
+开发常见操作和模版合集
 
-### Compiles and minifies for production
-```
-yarn build
-```
+styles: 常用 css 集合
+router: 常见路由操作
+mixins: 常用 mixin, 业务 mixin, 组件 mixin
+layouts: 常见布局
+components: 组件
+utils: 工具类
+store: vuex 操作
+storage: 项目本地存储操作
 
-### Lints and fixes files
-```
-yarn lint
-```
+## vue-cli 配置 ts
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+```bash
+npm install -D typescript @vue/cli-plugin-typescript
+
+# eslint
+```

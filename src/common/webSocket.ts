@@ -3,22 +3,23 @@
  * 断线重连问题
  */
 
-let Socket = "";
-let setIntervalSocketPush = null;
+let Socket: WebSocket | undefined | null;
+let setIntervalSocketPush: any = null;
+let reconneturl: string = "";
 
-const log = (string) => {
+const log = (string: string) => {
   return `[socket]: ${string}`;
 };
 
 // customEvent polyfill
 (function () {
-  function CustomEvent(event, params) {
+  function CustomEvent(event: string, params: any) {
     params = params || {
       bubbles: false,
       cancelable: false,
       detail: undefined,
     };
-    var evt = document.createEvent("CustomEvent");
+    const evt = document.createEvent("CustomEvent");
     evt.initCustomEvent(
       event,
       params.bubbles,
@@ -33,7 +34,8 @@ const log = (string) => {
 })();
 
 /** 建立连接 */
-export const createSocket = (url) => {
+export const createSocket = (url: string) => {
+  reconneturl = url;
   Socket && Socket.close();
   if (!Socket) {
     log("建立websocket连接");
@@ -54,12 +56,12 @@ const onopenWS = () => {
 
 /** 连接失败重连 */
 const onerrorWS = () => {
-  Socket.close();
+  Socket && Socket.close();
   clearInterval(setIntervalSocketPush);
   log("连接失败重连中");
-  if (Socket.readyState !== 3) {
+  if (Socket && Socket.readyState !== 3) {
     Socket = null;
-    createSocket();
+    createSocket(reconneturl);
   }
 };
 
@@ -67,9 +69,9 @@ const onerrorWS = () => {
 const oncloseWS = () => {
   clearInterval(setIntervalSocketPush);
   console.log("websocket已断开....正在尝试重连");
-  if (Socket.readyState !== 2) {
+  if (Socket && Socket.readyState !== 2) {
     Socket = null;
-    createSocket();
+    createSocket(reconneturl);
   }
 };
 
@@ -92,8 +94,8 @@ const onmessageWS = (e) => {
  */
 export const sendPing = (time = 15000, ping = "ping") => {
   clearInterval(setIntervalSocketPush);
-  Socket.send(ping);
+  Socket && Socket.send(ping);
   setIntervalSocketPush = setInterval(() => {
-    Socket.send(ping);
+    Socket && Socket.send(ping);
   }, time);
 };

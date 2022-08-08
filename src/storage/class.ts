@@ -1,11 +1,11 @@
 const storage_prefix = "__prod_template__";
 
-const Storage = function (origin) {
+const Storage = function (origin: WindowLocalStorage | WindowSessionStorage) {
   this.prefix = storage_prefix;
   this.origin = origin;
 };
 
-Storage.prototype.get = function (key, defaultValue) {
+Storage.prototype.get = function (key: string, defaultValue: any) {
   try {
     const data = JSON.parse(this.origin.getItem(`${this.prefix}${key}`));
     const { ttl } = data;
@@ -24,7 +24,7 @@ Storage.prototype.get = function (key, defaultValue) {
   }
 };
 
-Storage.prototype.set = function (key, value, ttl = -1) {
+Storage.prototype.set = function (key: string, value: any, ttl = -1) {
   const setKey = `${this.prefix}${key}`;
   let data = { key: value };
   if (ttl > 0) {

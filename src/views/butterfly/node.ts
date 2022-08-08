@@ -5,15 +5,15 @@ import "./node.less";
 
 class BaseNode extends TreeNode {
   draw = (opts) => {
-    let container = $('<div class="iot-node"></div>')
+    const container = $('<div class="iot-node"></div>')
       .css("top", opts.top + "px")
       .css("left", opts.left + "px")
       .attr("id", opts.id);
 
-    let titleDom = $(
+    const titleDom = $(
       `<div class="title ${opts.options.color}"><i class="iconfont ${opts.options.iconType} ${opts.options.iconClass}"></i>${opts.options.title}<div>`
     );
-    let contentDom = $(`<div class="content">${opts.options.content}<div>`);
+    const contentDom = $(`<div class="content">${opts.options.content}<div>`);
 
     container.append(titleDom);
     container.append(contentDom);
@@ -21,7 +21,7 @@ class BaseNode extends TreeNode {
     return container[0];
   };
   showExpandBtn(container = this.dom) {
-    let expandBtn = $(`<div class='expand-btn'>···</div>`);
+    const expandBtn = $(`<div class='expand-btn'>···</div>`);
     expandBtn.on("click", (e) => {
       e.stopPropagation();
       e.preventDefault();

@@ -17,6 +17,7 @@ export default {
     const vnodes = [];
     if (icon) {
       if (icon.includes("el-icon")) {
+        // eslint-disable-next-line
         vnodes.push(<i class={[icon, "sub-el-icon"]} />);
       } else {
         vnodes.push(<svg-icon icon-class={icon} />);

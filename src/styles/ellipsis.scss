@@ -1,0 +1,14 @@
+@import './var.scss';
+@import './mixins/ellipsis.scss';
+
+.normal-ellipsis {
+  @include ellipsis
+}
+
+.mutiple-ellipsis-l2 {
+  @include multi-ellipsis(2)
+}
+
+.mutiple-ellipsis-l3 {
+  @include multi-ellipsis(3)
+}

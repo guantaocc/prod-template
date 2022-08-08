@@ -1,6 +1,6 @@
 import Vue from "vue";
 
-const toCamelCase = (str) => {
+const toCamelCase = (str: string) => {
   return str.replace(/(A-Z)/, (match, p1) => {
     return "-" + p1.toLowerCase();
   });
