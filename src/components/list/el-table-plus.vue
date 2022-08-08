@@ -1,6 +1,7 @@
 <script>
 import omit from "lodash/omit";
 import axios from "axios";
+import { getChainValue } from "@/utils/Object";
 export default {
   name: "el-table-plus",
   props: {
@@ -24,8 +25,8 @@ export default {
       total: 0,
       cancelToken: axios.cancelToken,
       cancelSourceList: [],
-      // 保存对表格的操作 动作信息
-      action: {},
+      // query ? filters
+      form: {},
     };
   },
   mounted() {
@@ -41,6 +42,11 @@ export default {
     tableScroll(e) {
       e.preventDefault();
       this.$emit("scroll", e);
+    },
+    reset() {
+      this.pageSize = 10;
+      this.pageNum = 1;
+      this.cancelAllRequest();
     },
     // 成功或失败移除请求
     removeCancelSource(_cancelSource) {
@@ -109,50 +115,41 @@ export default {
       this.doSearch();
     },
   },
-  render(h) {
+  render() {
     const tableListeners = omit(this.$listeners, ["page-change"]);
-
-    const getCellValue = (column, row) =>
-      column.prop.split(".").reduce((obj, cur) => obj[cur], row);
 
     const renderColumns = (columns) =>
       columns
         .filter((i) => !i.hidden)
         .map((c) => {
           const options = Object.assign({ scopedSlots: {}, prop: "" }, c);
-
           const scopedSlots = {
             default: ({ row, column: elColumn, $index }) => {
               const column = Object.assign({}, options, elColumn);
-
               // 支持链式. 如：xxx.xxx
-              const defaultValue = getCellValue(column, row);
-
+              // const defaultValue = getCellValue(column, row);
+              const defaultValue = getChainValue(column.prop, row);
               // 自定义组件
               column.customRender =
                 column.customRender ||
                 this.$scopedSlots[column.scopedSlots.customRender];
               if (column.customRender) {
-                // 传递 编辑动作
                 return column.customRender(defaultValue, row, column, $index);
               }
               // 兼容element-ui formatter属性
               if (column.formatter) {
                 return column.formatter(row, column, defaultValue, $index);
               }
-
               return defaultValue;
             },
             header: ({ column: elColumn, $index }) => {
               const column = Object.assign({}, options, elColumn);
-
               column.customTitle =
                 column.customTitle ||
                 this.$scopedSlots[column.scopedSlots.customTitle];
               if (column.customTitle) {
                 return column.customTitle(elColumn, $index);
               }
-
               return column.label;
             },
           };
